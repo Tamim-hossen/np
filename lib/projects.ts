@@ -84,27 +84,37 @@ function mapProject(project: StoredProject): Project {
 }
 
 export async function getProjects(): Promise<Project[]> {
-  const client = await getMongoClient();
+  try {
+    const client = await getMongoClient();
 
-  const projects = await client
-    .db()
-    .collection<StoredProject>('projects')
-    .find({})
-    .sort({ order: 1, _id: 1 })
-    .toArray();
+    const projects = await client
+      .db()
+      .collection<StoredProject>('projects')
+      .find({})
+      .sort({ order: 1, _id: 1 })
+      .toArray();
 
-  return projects.map(mapProject);
+    return projects.map(mapProject);
+  } catch (error) {
+    console.error('getProjects database error:', error);
+    return [];
+  }
 }
 
 export const getProjectById = cache(async (id: string): Promise<Project | null> => {
   if (!/^[\da-f]{24}$/i.test(id)) return null;
 
-  await io();
-  const client = await getMongoClient();
-  const project = await client
-    .db()
-    .collection<StoredProject>('projects')
-    .findOne({ _id: new ObjectId(id) });
+  try {
+    await io();
+    const client = await getMongoClient();
+    const project = await client
+      .db()
+      .collection<StoredProject>('projects')
+      .findOne({ _id: new ObjectId(id) });
 
-  return project ? mapProject(project) : null;
+    return project ? mapProject(project) : null;
+  } catch (error) {
+    console.error(`getProjectById error for id ${id}:`, error);
+    return null;
+  }
 });

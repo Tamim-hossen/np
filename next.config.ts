@@ -62,16 +62,6 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Long-lived cache for Next.js static assets (hashed filenames)
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
         // sitemap.xml — revalidate frequently so Google picks up new content
         source: "/sitemap.xml",
         headers: [

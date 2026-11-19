@@ -45,13 +45,18 @@ function mapSkill(skill: StoredSkill): Skill {
 }
 
 export async function getSkills(): Promise<Skill[]> {
-  const client = await getMongoClient();
-  const skills = await client
-    .db()
-    .collection<StoredSkill>('skills')
-    .find({})
-    .sort({ order: 1, _id: 1 })
-    .toArray();
+  try {
+    const client = await getMongoClient();
+    const skills = await client
+      .db()
+      .collection<StoredSkill>('skills')
+      .find({})
+      .sort({ order: 1, _id: 1 })
+      .toArray();
 
-  return skills.map(mapSkill);
+    return skills.map(mapSkill);
+  } catch (error) {
+    console.error('getSkills database error:', error);
+    return [];
+  }
 }

@@ -62,13 +62,18 @@ function mapService(service: StoredService): Service {
 }
 
 export async function getServices(): Promise<Service[]> {
-  const client = await getMongoClient();
-  const services = await client
-    .db()
-    .collection<StoredService>('services')
-    .find({})
-    .sort({ order: 1, _id: 1 })
-    .toArray();
+  try {
+    const client = await getMongoClient();
+    const services = await client
+      .db()
+      .collection<StoredService>('services')
+      .find({})
+      .sort({ order: 1, _id: 1 })
+      .toArray();
 
-  return services.map(mapService);
+    return services.map(mapService);
+  } catch (error) {
+    console.error('getServices database error:', error);
+    return [];
+  }
 }

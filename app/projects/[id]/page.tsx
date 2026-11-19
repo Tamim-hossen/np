@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import Script from 'next/script';
 import { ProjectDetailContent } from '@/components/projects/ProjectDetailContent';
 import { ProjectDetailSkeleton } from '@/components/skeletons/ProjectDetailSkeleton';
 import { getProjectById } from '@/lib/projects';
@@ -111,18 +110,14 @@ export default async function ProjectPage({
 
   return (
     <>
-      <Script
-        id={`ld-breadcrumb-project-${project.id}`}
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbStructuredData).replace(/</g, '\\u003c'),
         }}
       />
-      <Script
-        id={`ld-creative-work-${project.id}`}
+      <script
         type="application/ld+json"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(creativeWorkStructuredData).replace(/</g, '\\u003c'),
         }}

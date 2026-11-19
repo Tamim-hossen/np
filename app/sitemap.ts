@@ -9,10 +9,17 @@ const STATIC_LAST_MODIFIED = '2026-11-01T00:00:00.000Z';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await connection();
-  const [projects, caseStudies] = await Promise.all([
-    getProjects(),
-    getCaseStudies(),
-  ]);
+  let projects: Awaited<ReturnType<typeof getProjects>> = [];
+  let caseStudies: Awaited<ReturnType<typeof getCaseStudies>> = [];
+
+  try {
+    [projects, caseStudies] = await Promise.all([
+      getProjects(),
+      getCaseStudies(),
+    ]);
+  } catch (error) {
+    console.error('Failed to load dynamic routes for sitemap:', error);
+  }
 
   return [
     {

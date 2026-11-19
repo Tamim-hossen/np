@@ -150,26 +150,36 @@ function mapCaseStudy(caseStudy: StoredCaseStudy): CaseStudy {
 }
 
 export async function getCaseStudies(): Promise<CaseStudy[]> {
-  const client = await getMongoClient();
-  const caseStudies = await client
-    .db()
-    .collection<StoredCaseStudy>('casestudies')
-    .find({})
-    .sort({ createdAt: -1, _id: 1 })
-    .toArray();
+  try {
+    const client = await getMongoClient();
+    const caseStudies = await client
+      .db()
+      .collection<StoredCaseStudy>('casestudies')
+      .find({})
+      .sort({ createdAt: -1, _id: 1 })
+      .toArray();
 
-  return caseStudies.map(mapCaseStudy);
+    return caseStudies.map(mapCaseStudy);
+  } catch (error) {
+    console.error('getCaseStudies database error:', error);
+    return [];
+  }
 }
 
 export const getCaseStudyBySlug = cache(
   async (slug: string): Promise<CaseStudy | null> => {
-    await io();
-    const client = await getMongoClient();
-    const caseStudy = await client
-      .db()
-      .collection<StoredCaseStudy>('casestudies')
-      .findOne({ slug });
+    try {
+      await io();
+      const client = await getMongoClient();
+      const caseStudy = await client
+        .db()
+        .collection<StoredCaseStudy>('casestudies')
+        .findOne({ slug });
 
-    return caseStudy ? mapCaseStudy(caseStudy) : null;
+      return caseStudy ? mapCaseStudy(caseStudy) : null;
+    } catch (error) {
+      console.error(`getCaseStudyBySlug error for slug ${slug}:`, error);
+      return null;
+    }
   },
 );

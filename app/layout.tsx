@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { PortfolioStoreBootstrap } from "@/components/providers/PortfolioStoreBootstrap";
 import { SiteNavigation } from "@/components/navigation/SiteNavigation";
 import { SiteLoadingScreen } from "@/components/loading/SiteLoadingScreen";
-import { ResourceHints } from "@/components/seo/ResourceHints";
 import { SITE_URL, OG_IMAGE, TWITTER_DEFAULTS } from "@/lib/seo";
 import "./globals.css";
 
@@ -160,29 +158,18 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-neutral-900">
-        {/*
-         * JSON-LD structured data — use next/script with beforeInteractive so
-         * the data is in the initial HTML and React 19 can reconcile it correctly
-         * without a dangerouslySetInnerHTML mismatch in the RSC body.
-         */}
-        <Script
-          id="ld-person"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(personStructuredData).replace(/</g, "\\u003c"),
           }}
         />
-        <Script
-          id="ld-website"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteStructuredData).replace(/</g, "\\u003c"),
           }}
         />
-        {/* Resource hints via React 19 imperative APIs — no manual <head> needed */}
-        <ResourceHints />
         <SmoothScrollProvider>
           <SiteNavigation />
           <SiteLoadingScreen />

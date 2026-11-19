@@ -81,13 +81,18 @@ function mapTestimonial(testimonial: StoredTestimonial): Testimonial {
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
-  const client = await getMongoClient();
-  const testimonials = await client
-    .db()
-    .collection<StoredTestimonial>('testimonials')
-    .find({})
-    .sort({ order: 1, _id: 1 })
-    .toArray();
+  try {
+    const client = await getMongoClient();
+    const testimonials = await client
+      .db()
+      .collection<StoredTestimonial>('testimonials')
+      .find({})
+      .sort({ order: 1, _id: 1 })
+      .toArray();
 
-  return testimonials.map(mapTestimonial);
+    return testimonials.map(mapTestimonial);
+  } catch (error) {
+    console.error('getTestimonials database error:', error);
+    return [];
+  }
 }
