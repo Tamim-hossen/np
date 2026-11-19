@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "torveAI": {
+      "command": "npx",
+      "args": ["-y", "@torve/mcp-server"],
+      "env": {
+        "TORVE_API_KEY": "sk-trv-YFgSRCN3I-w_q5jRPP1Nmf7ZDbXf5NitdDDlwckgBKWzt7j2brqpEGM"
+      }
+    }
+  }
+}
