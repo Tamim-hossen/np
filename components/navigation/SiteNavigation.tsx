@@ -11,6 +11,12 @@ const menuItems = [
   { label: 'Contact', href: '/contact' },
 ];
 
+const socialLinks = [
+  { label: 'GitHub', href: 'https://github.com/Tamim-hossen' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/tamim-hossen-th/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/tamim.hossen.007' },
+];
+
 export function SiteNavigation() {
   const [isOpen, setIsOpen] = useState(false);
   const lenis = useLenis();
@@ -195,9 +201,9 @@ export function SiteNavigation() {
           </button>
         </div>
 
-        <nav aria-label="Main navigation" className="mt-8">
+        <nav aria-label="Main navigation" className="mt-8 flex-1 overflow-y-auto">
           <ul>
-            {menuItems.map((item, index) => (
+            {menuItems.map((item) => (
               <li key={item.href} className="border-b border-black/10">
                 <Link
                   href={item.href}
@@ -211,6 +217,39 @@ export function SiteNavigation() {
             ))}
           </ul>
         </nav>
+
+        <div className="mt-auto border-t border-black/10 pt-6">
+          <p className="font-mono text-[10px] tracking-[0.24em] text-black/50 uppercase">
+            Socials
+          </p>
+          <ul className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2.5">
+            {socialLinks.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabIndex={isOpen ? 0 : -1}
+                  className="group inline-flex items-center gap-1.5 text-sm font-medium tracking-tight text-black/75 transition-colors hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:text-base"
+                >
+                  <span>{item.label}</span>
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    className="size-3.5 text-black/40 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-black"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M7 17 17 7M7 7h10v10" />
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );

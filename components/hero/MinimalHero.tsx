@@ -1416,7 +1416,7 @@ export function MinimalHero({ isActive = true }: { isActive?: boolean }) {
           </div>
           <div>
             <a
-              href="https://github.com/tamim"
+              href="https://github.com/Tamim-hossen "
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#000000] transition-colors"
