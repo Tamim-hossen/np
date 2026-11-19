@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+import Script from 'next/script';
 import { CaseStudyDetailContent } from '@/components/case-studies/CaseStudyDetailContent';
 import { CaseStudyDetailSkeleton } from '@/components/skeletons/CaseStudyDetailSkeleton';
 import { getCaseStudyBySlug } from '@/lib/case-studies';
@@ -127,14 +128,18 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <script
+      <Script
+        id={`ld-breadcrumb-case-study-${study.slug}`}
         type="application/ld+json"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbStructuredData).replace(/</g, '\\u003c'),
         }}
       />
-      <script
+      <Script
+        id={`ld-article-${study.slug}`}
         type="application/ld+json"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleStructuredData).replace(/</g, '\\u003c'),
         }}
